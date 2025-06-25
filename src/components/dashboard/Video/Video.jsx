@@ -12,10 +12,12 @@ export const Video = () => {
   const [commentText, setCommentText] = useState("");
   const [error, setError] = useState("");
 
+  const API_BASE = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
-    // Get current video
+    // Fetch current video
     axios
-      .get(`${import.meta.env.VITE_API_URL}/login/video/${id}`, {
+      .get(`${API_BASE}/video/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
@@ -29,52 +31,58 @@ export const Video = () => {
         setError("Video not found");
       });
 
-    // Get recommended videos
+    // Fetch recommended videos
     axios
-      .get("https://ourtubeapi1.onrender.com/video/all")
+      .get(`${API_BASE}/video/all`)
       .then((res) => {
         const filtered = res.data.Videos.filter((v) => v._id !== id);
-        setRecommended(filtered.slice(0, 5));
-      });
+        setRecommended(filtered.slice(0, 6));
+      })
+      .catch(console.error);
 
-    // Get comments
+    // Fetch comments
     axios
-      .get(`https://ourtubeapi1.onrender.com/video/comments/${id}`)
+      .get(`${API_BASE}/video/comments/${id}`)
       .then((res) => setComments(res.data))
-      .catch((err) => console.error(err));
+      .catch(console.error);
   }, [id]);
 
   const handleLike = () => {
-    axios.post(`https://ourtubeapi1.onrender.com/video/like/${id}`);
+    axios.post(`${API_BASE}/video/like/${id}`);
     setVideo((prev) => ({ ...prev, likes: prev.likes + 1 }));
   };
 
   const handleDislike = () => {
-    axios.post(`https://ourtubeapi1.onrender.com/video/dislike/${id}`);
+    axios.post(`${API_BASE}/video/dislike/${id}`);
     setVideo((prev) => ({ ...prev, dislike: prev.dislike + 1 }));
   };
 
+  const handleView = () => {
+    axios.post(`${API_BASE}/video/view/${id}`);
+  };
+
   const handleComment = () => {
+    if (!commentText.trim()) return;
+
     axios
-      .post(`https://ourtubeapi1.onrender.com/video/comment/${id}`, {
-        text: commentText,
-      }, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
+      .post(
+        `${API_BASE}/video/comment/${id}`,
+        { text: commentText },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token"),
+          },
         }
-      })
+      )
       .then(() => {
         setComments((prev) => [...prev, { user: "You", text: commentText }]);
         setCommentText("");
-      });
+      })
+      .catch(console.error);
   };
 
-  const handleView = () => {
-    axios.post(`https://ourtubeapi1.onrender.com/video/view/${id}`);
-  };
-
-  if (error) return <p>{error}</p>;
-  if (!video) return <p>Loading...</p>;
+  if (error) return <p className="error-msg">{error}</p>;
+  if (!video) return <p>Loading video...</p>;
 
   return (
     <div className="video-page">
@@ -102,11 +110,14 @@ export const Video = () => {
         <div className="uploader-info">
           <p>Uploaded by: {user?.channelname}</p>
           {user?.logourl && (
-            <img src={user.logourl} alt="Uploader" className="uploader-logo" />
+            <img
+              src={user.logourl}
+              alt="Uploader"
+              className="uploader-logo"
+            />
           )}
         </div>
 
-        {/* Comments */}
         <div className="comments-section">
           <h3>Comments</h3>
           {comments.map((c, i) => (
@@ -114,21 +125,25 @@ export const Video = () => {
               <strong>{c.user || "Anonymous"}:</strong> {c.text}
             </div>
           ))}
+
           <textarea
-            placeholder="Add a comment"
+            placeholder="Add a comment..."
             value={commentText}
             onChange={(e) => setCommentText(e.target.value)}
           />
-          <button onClick={handleComment}>Post</button>
+          <button onClick={handleComment}>Post Comment</button>
         </div>
       </div>
 
-      {/* Recommended Videos */}
       <div className="recommended-section">
         <h3>Recommended</h3>
         <div className="recommended-list">
           {recommended.map((vid) => (
-            <Link to={`/video/${vid._id}`} key={vid._id} className="recommended-card">
+            <Link
+              to={`/video/${vid._id}`}
+              key={vid._id}
+              className="recommended-card"
+            >
               <img src={vid.thumbnailurl} alt={vid.title} />
               <div>
                 <p>{vid.title}</p>

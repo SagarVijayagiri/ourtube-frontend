@@ -21,7 +21,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
   const myroutes = createBrowserRouter([
-    { path: '', element: <Signup/> },
+    { path: '/', element: <Home /> },
     { path: '/signup', element: <Signup /> },
     { path: '/login', element: <Login /> },
     { path: '/video/:id', element: <Video /> },

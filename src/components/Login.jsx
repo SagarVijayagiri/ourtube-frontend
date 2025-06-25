@@ -21,7 +21,7 @@ export const Login = () => {
     formdata.append('email', email);
     formdata.append('password', password);
 
-    axios.post('https://ourtubeapi1.onrender.com/user/login', {
+    axios.post(`${import.meta.env.VITE_API_URL}/user/login`, {
       email:email,
       password:password
     })

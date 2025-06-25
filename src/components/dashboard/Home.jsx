@@ -10,7 +10,7 @@ export const Home = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    axios.get("https://ourtubeapi1.onrender.com/video/all")
+    axios.get(`${import.meta.env.VITE_API_URL}/video/all`)
       .then(res => {
         setVideos(res.data.Videos);
         setFilteredVideos(res.data.Videos);

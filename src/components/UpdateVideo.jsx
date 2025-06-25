@@ -18,7 +18,7 @@ export const UpdateVideo = () => {
   const [error, setError] = useState('');
 
 useEffect(() => {
-  axios.get(`https://ourtubeapi1.onrender.com/video/${id}`, {
+  axios.get(`${import.meta.env.VITE_API_URL}/video/${id}`, {
     headers: {
       Authorization: 'Bearer ' + localStorage.getItem('token')
     }

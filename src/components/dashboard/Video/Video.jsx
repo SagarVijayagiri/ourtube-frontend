@@ -15,7 +15,7 @@ export const Video = () => {
   useEffect(() => {
     // Get current video
     axios
-      .get(`https://ourtubeapi1.onrender.com/video/${id}`, {
+      .get(`${import.meta.env.VITE_API_URL}/login/video/${id}`, {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },

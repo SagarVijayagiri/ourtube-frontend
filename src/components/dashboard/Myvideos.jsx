@@ -8,7 +8,7 @@ export const Myvideos=()=>{
     getownvideo()
   },[])
   const getownvideo=()=>{
-    axios.get('https://ourtubeapi1.onrender.com/video/ownvideo',{
+    axios.get(`${import.meta.env.VITE_API_URL}/video/ownvideo`,{
       headers:{
         Authorization:'Bearer ' +localStorage.getItem('token')
       }

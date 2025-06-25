@@ -34,7 +34,7 @@ export const Signup = () => {
     formdata.append('phone', phone);
     formdata.append('logo', logo);
 
-    axios.post('https://ourtubeapi1.onrender.com/user/signup', formdata, {
+    axios.post(`${import.meta.env.VITE_API_URL}/user/signup`, formdata, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }

@@ -31,7 +31,7 @@ export const Uploadvideos=()=>{
     formdata.append('video',video)
     formdata.append('thumbnail',thumbnail)
     
-    axios.post('https://ourtubeapi1.onrender.com/video/upload',formdata,{
+    axios.post(`${import.meta.env.VITE_API_URL}/video/upload`,formdata,{
       headers:{
         Authorization:'Bearer ' +localStorage.getItem('token')
       }

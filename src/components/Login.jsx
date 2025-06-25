@@ -33,7 +33,7 @@ export const Login = () => {
       localStorage.setItem('channelname',res.data.channelname)
       localStorage.setItem('logourl',res.data.logourl)
       toast("welcome to our tube")
-      navigate('/Home')
+      navigate('/home')
     })
     .catch(err => {
       setloading(false)

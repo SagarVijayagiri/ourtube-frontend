@@ -1,6 +1,6 @@
 .main-wrapper{
   width:210vh;
-  height:100vh;
+  height:200vh;
   background-color: rgb(31,26,27);
   display:flex;
   flex-direction: column;
@@ -62,7 +62,7 @@
 }
 .dashboard-container{
   width:210vh;
-  height:100vh;
+  height:100%;
   background-color: rgb(31,26,27);
   display: flex;
   color: white;

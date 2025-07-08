@@ -31,7 +31,7 @@ export const Home = () => {
   // Utility functions
   const getTrending = () => [...videos].sort((a, b) => b.views - a.views).slice(0, 6);
   const getRecent = () => [...videos].sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate)).slice(0, 6);
-  const getRecommended = () => videos.filter(v => v.category === "Recommended").slice(0, 6);
+  const getRecommended = () => videos.filter(v => v.category === "technology").slice(0, 6);
 
   return (
     <div>

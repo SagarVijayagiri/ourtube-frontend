@@ -34,7 +34,7 @@ export const Home = () => {
   const getRecommended = () => videos.filter(v => v.category === "technology").slice(0, 6);
 
   return (
-    <div>
+    <div >
       <div className="header-cont">
         <SearchBar videos={videos} onFilter={setFilteredVideos} />
         <div className="logo-cont"></div>
